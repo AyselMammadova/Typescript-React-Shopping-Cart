@@ -1,29 +1,49 @@
-import { Button } from '@mui/material';
-// Types 
-import { CartItemType } from '../App';
-// Styles
-import { Wrapper } from './CartItem.styles';
+import { Button } from "@mui/material";
+// Types
+import { CartItemType } from "../App";
+// Styles 
+import { Wrapper } from "./CartItem.styles";
+
 
 type Props = {
     item: CartItemType;
-    handleAdd: (clickedItem: CartItemType) => void;
+    addToCart: (clickedItem: CartItemType) => void;
+    removeFromCart: (id: number) => void;
 }
 
-const CartItem: React.FC<Props> = ({ item, handleAdd }) => (
+
+
+const CartItem: React.FC<Props> = ({ item, addToCart, removeFromCart }) => (
     <Wrapper>
-        <div className="img-wrap">
-            <img src={item.image} alt={item.title} />
-        </div>
-        <div className='product-info'>
+        <div>
             <h3>{item.title}</h3>
-            <div>
-                <p>{item.description}</p>
-                <h4>${item.price}</h4>
+            <div className='cart-item-info'>
+                <p>Price: ${item.price}</p>
+                <p>Total: ${(item.amount * item.price).toFixed(2)}</p>
+            </div>
+            <div className="btns">
+                <Button
+                    size='small'
+                    disableElevation
+                    variant='contained'
+                    onClick={() => removeFromCart(item.id)}
+                >
+                    -
+                </Button>
+
+                <p>{item.amount}</p>
+
+                <Button
+                    size='small'
+                    disableElevation
+                    variant='contained'
+                    onClick={() => addToCart(item)}
+                >
+                    +
+                </Button>
             </div>
         </div>
-        <Button onClick={() => handleAdd(item)}>
-            Add to cart
-        </Button>
+        <img src={item.image} alt={item.title} />
     </Wrapper>
 );
 
